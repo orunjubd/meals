@@ -23,7 +23,7 @@ const dummyMeals = [
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
     imageUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg/800px-Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg/960px-Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg',
     duration: 20,
     ingredients: [
       '4 Tomatoes',
@@ -54,7 +54,7 @@ const dummyMeals = [
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2016/10/25/12/28/toast-1767224_1280.jpg',
+        'https://cdn.pixabay.com/photo/2018/07/11/21/51/toast-3532016_1280.jpg',
     duration: 10,
     ingredients: [
       '1 Slice White Bread',
@@ -142,7 +142,7 @@ const dummyMeals = [
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2016/08/11/23/48/salmon-1585077_1280.jpg',
+        'https://cdn.pixabay.com/photo/2016/10/25/13/29/smoked-salmon-salad-1768890_1280.jpg',
     duration: 15,
     ingredients: [
       'Arugula',
@@ -173,7 +173,7 @@ const dummyMeals = [
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2017/05/07/08/56/orange-mousse-2291905_1280.jpg',
+        'https://cdn.pixabay.com/photo/2017/05/01/05/18/pastry-2274750_1280.jpg',
     duration: 240,
     ingredients: [
       '4 Sheets of Gelatine',
@@ -266,7 +266,7 @@ const dummyMeals = [
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2016/11/18/15/07/chocolate-souffle-1835437_1280.jpg',
+        'https://cdn.pixabay.com/photo/2014/08/07/21/07/souffle-412785_1280.jpg',
     duration: 45,
     ingredients: [
       '1 Teaspoon melted Butter',

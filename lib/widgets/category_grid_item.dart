@@ -9,7 +9,7 @@ class CategoryGridItem extends StatelessWidget {
   });
 
   final Category category;
-  final VoidCallback
+  final void Function()
   onSelectCategory; // VoidCallback shorter nickname for void Function() [INDEX]
 
   @override
@@ -19,7 +19,7 @@ class CategoryGridItem extends StatelessWidget {
     // control over the tap behavior but not the visual feedback;
     return InkWell(
       autofocus: bool.fromEnvironment('debug'),
-      onTap: () {},
+      onTap: onSelectCategory, // 🚀 Wakes up click actions on touch gestures!,
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(16),
       child: Container(
