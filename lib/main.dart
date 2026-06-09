@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:meals/views/tabs.dart';
 
 final theme = ThemeData(
@@ -8,9 +8,7 @@ final theme = ThemeData(
     brightness: Brightness.dark,
     seedColor: const Color.fromARGB(255, 131, 57, 0),
   ),
-  textTheme: const TextTheme(
-    titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-  ),
+  textTheme: GoogleFonts.robotoTextTheme(),
 );
 
 void main() {
