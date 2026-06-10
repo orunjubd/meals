@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:meals/views/categories.dart';
 import 'package:meals/views/meals.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/widgets/main_drawer.dart';
+import 'package:meals/views/filters.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -56,6 +58,22 @@ class _TabsScreenState extends State<TabsScreen> {
     );
   }
 
+  // 2. SCROLL DOWN INSIDE YOUR _TabsScreenState CLASS BUILD BLOCK TRACK (Around Line 45):
+  // 🚀 THE DRAWER ROUTING ROUTER INTERCEPTOR ENGINE
+  void _setScreen(String identifier) {
+    Navigator.of(
+      context,
+    ).pop(); // 1. Always snap the side drawer menu shut first!
+
+    if (identifier == 'filters') {
+      // 2. Push the Filters screen view forward onto the navigation stack layers
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (ctx) => const FiltersScreen()));
+    }
+    // If identifier == 'meals', it falls back naturally, remaining right on the main tab dashboards!
+  }
+
   @override
   Widget build(BuildContext context) {
     // A. Default Viewport Page Slot configuration: Categories Grid Panel
@@ -78,6 +96,7 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(activePageTitle)),
       body: activePage,
+      drawer: MainDrawer(onSelectScreen: _setScreen),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPageIndex,
         onTap: _selectPage,
