@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/views/meal_details.dart';
 //import 'package:meals/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 //import 'package:cached_network_image/cached_network_image.dart'; // Standard smooth image fade plugin
 
 class MealItem extends StatelessWidget {
-  const MealItem({super.key, required this.meal});
+  const MealItem({
+    super.key,
+    required this.meal,
+    required this.onToggleFavorite, // 🚀 REQUIRE IT HERE
+  });
 
   final Meal meal;
+  final void Function(Meal meal) onToggleFavorite;
 
   // Helper utility method to capitalize text properties nicely (e.g. 'simple' -> 'Simple')
   String _capitalize(String text) {
@@ -24,7 +30,15 @@ class MealItem extends StatelessWidget {
       elevation: 3,
       child: InkWell(
         onTap: () {
-          // TODO: Implement interactive recipe details deep-dive page routing launcher next!
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (ctx) => MealDetailsScreen(
+                meal: meal,
+                onToggleFavorite:
+                    onToggleFavorite, // 🚀 PASS IT DOWN TO DEEP-DIVE SCREEN
+              ),
+            ),
+          );
         },
         child: Stack(
           children: [

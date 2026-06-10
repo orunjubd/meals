@@ -3,10 +3,16 @@ import 'package:meals/models/meal.dart';
 import 'package:meals/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
-  const MealsScreen({super.key, required this.title, required this.meals});
+  const MealsScreen({
+    super.key,
+    this.title,
+    required this.meals,
+    required this.onToggleFavorite, // 🚀 BRIDGE CONSTRUCTOR: Continues parameters mapping pipes
+  });
 
-  final String title;
+  final String? title;
   final List<Meal> meals;
+  final void Function(Meal meal) onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +55,22 @@ class MealsScreen extends StatelessWidget {
         itemCount: meals.length,
         itemBuilder: (ctx, index) {
           final meal = meals[index];
-          return MealItem(meal: meal);
+          return MealItem(
+            meal: meal,
+            onToggleFavorite:
+                onToggleFavorite, // 🚀 PASSES BRIDGE INTO INDIVIDUAL TILES
+          );
         },
       );
     }
+    // 🚀 THE SMART HEADER IF/ELSE FIREWALL
+
+    // If title is null, it means we are in the Favorites Tab! Return raw content without a second header.
+    if (title == null) return content;
 
     //return content;
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(title: Text(title!)),
       body: content,
     );
   }
