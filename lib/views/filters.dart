@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:meals/widgets/main_drawer.dart';
+//import 'package:meals/widgets/main_drawer.dart';
 
-// 🚀 THE SYSTEM SCHEMAS: Strictly enumerates your available system configuration channels
 enum Filter { glutenFree, lactoseFree, vegan, vegetarian }
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  const FiltersScreen({super.key, required this.currentFilters});
+
+  final Map<Filter, bool>
+  currentFilters; // 🚀 BRIDGE CONSTRUCTOR: Receives current filter settings from tab
 
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
@@ -20,7 +22,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
     Filter.vegetarian: false,
   };
 
-  // 🚀 CLEAN OPTIMIZATION TRACK DATASET: Defines labels and descriptions dynamically in an inline configuration array
   List<Map<String, dynamic>> get _filterMetaData => [
     {
       'filter': Filter.glutenFree,
@@ -45,54 +46,66 @@ class _FiltersScreenState extends State<FiltersScreen> {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Your Filters')),
-      drawer: MainDrawer(
-        onSelectScreen: (String identifier) {
-          Navigator.of(context).pop(); // Snap side drawer panel shut
+  void initState() {
+    super.initState();
+    _activeFilters.addAll(
+      widget.currentFilters,
+    ); // 🚀 BRIDGE INITIALIZATION: Passes current filter settings from tab
+  }
 
-          if (identifier == 'meals') {
-            // 🚀 FIXED: Dropped the duplicate push!
-            // Popping the context off the stack returns the user safely straight to TabsScreen!
-            Navigator.of(context).pop();
-          }
-        },
-      ),
-      // 🚀 LOOP RENDERING LAYER: Replaces 60 lines of copy-pasted SwitchListTiles with a single loop map!
-      body: ListView(
-        children: [
-          for (final item in _filterMetaData)
-            SwitchListTile(
-              value:
-                  _activeFilters[item['filter']] ??
-                  false, // Reads active configuration state flag
-              onChanged: (isChecked) {
-                setState(() {
-                  _activeFilters[item['filter'] as Filter] =
-                      isChecked; // Mutates targeted mapping tracks
-                });
-              },
-              title: Text(
-                item['title'] as String,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  fontWeight: FontWeight.bold,
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, dynamic result) {
+        if (didPop) return;
+        Navigator.of(
+          context,
+        ).pop(_activeFilters); // Passes data map straight backward safely
+      },
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Your Filters')),
+        // //drawer: MainDrawer(
+        //   onSelectScreen: (String identifier) {
+        //     Navigator.of(context).pop(); // Snap drawer panel shut
+        //     if (identifier == 'meals') {
+        //       Navigator.of(
+        //         context,
+        //       ).pop(); // Pops out to return back to home tab dashboard screens
+        //     }
+        //   },
+        // //),
+        body: ListView(
+          children: [
+            for (final item in _filterMetaData)
+              SwitchListTile(
+                value: _activeFilters[item['filter']] ?? false,
+                onChanged: (isChecked) {
+                  setState(() {
+                    _activeFilters[item['filter'] as Filter] = isChecked;
+                  });
+                },
+                title: Text(
+                  item['title'] as String,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  item['subtitle'] as String,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                activeThumbColor: Theme.of(context).colorScheme.tertiary,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 8,
                 ),
               ),
-              subtitle: Text(
-                item['subtitle'] as String,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-              activeThumbColor: Theme.of(context).colorScheme.tertiary,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 8,
-              ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

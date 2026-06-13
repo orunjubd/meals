@@ -9,13 +9,16 @@ class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({
     super.key,
     required this.onToggleFavorite, // 🚀 BRIDGE CONSTRUCTOR: Receives pointer method from tab
+    required this.availableMeals, // 🚀 BRIDGE CONSTRUCTOR: Receives meals data from tab
   });
 
   final void Function(Meal meal) onToggleFavorite;
+  final List<Meal>
+  availableMeals; // 🚀 BRIDGE CONSTRUCTOR: Receives meals data from tab
 
   // 🚀 THE CONTROLLER ROUTING METHOD: Pushes view context forward to meals list
   void _selectCategory(BuildContext context, Category category) {
-    final filteredMeals = dummyMeals
+    final filteredMeals = availableMeals
         .where((meal) => meal.categories.contains(category.id))
         .toList();
     // =======================================================================
