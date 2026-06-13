@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:meals/views/categories.dart';
 import 'package:meals/views/meals.dart';
 import 'package:meals/models/meal.dart';
 import 'package:meals/widgets/main_drawer.dart';
 import 'package:meals/views/filters.dart';
-
-import 'package:meals/data/dummy_data.dart';
+import 'package:meals/providers/meals_provider.dart';
+import 'package:meals/providers/favorites_provider.dart';
 
 const kInitialFilters = {
   Filter.glutenFree: false,
@@ -14,53 +16,40 @@ const kInitialFilters = {
   Filter.vegan: false,
 };
 
-class TabsScreen extends StatefulWidget {
+class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
 
   @override
-  State<TabsScreen> createState() => _TabsScreenState();
+  ConsumerState<TabsScreen> createState() => _TabsScreenState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
+class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
 
   // 🚀 THE SYSTEM ARRAYS STORAGE POOL: Keeps track of bookmarked meals across tabs
-  final List<Meal> _favoriteMeals = [];
+  // final List<Meal> _favoriteMeals = [];
   Map<Filter, bool> _activeFilters = kInitialFilters;
 
-  // Helper dashboard flash utility alert bar (SnackBar notification layout builder)
-  void _showInfoMessage(String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: const Duration(seconds: 2),
-        behavior:
-            SnackBarBehavior.floating, // Clean modern appearance padding look
-      ),
-    );
-  }
-
   // 🚀 THE STATE CONTROLLER PIPELINE: Shared method that targets items for addition/removal
-  void _toggleMealFavoriteStatus(Meal meal) {
-    final isExisting = _favoriteMeals.contains(meal);
+  // void _toggleMealFavoriteStatus(Meal meal) {
+  //   final isExisting = _favoriteMeals.contains(meal);
 
-    if (isExisting) {
-      setState(() {
-        _favoriteMeals.remove(
-          meal,
-        ); // Delete item row out of array tracking memory lists
-      });
-      _showInfoMessage('Recipe removed from your favorites.');
-    } else {
-      setState(() {
-        _favoriteMeals.add(
-          meal,
-        ); // Insert item record permanently into memory list sets
-      });
-      _showInfoMessage('Recipe locked into your favorites!');
-    }
-  }
+  //   if (isExisting) {
+  //     setState(() {
+  //       _favoriteMeals.remove(
+  //         meal,
+  //       ); // Delete item row out of array tracking memory lists
+  //     });
+  //     _showInfoMessage('Recipe removed from your favorites.');
+  //   } else {
+  //     setState(() {
+  //       _favoriteMeals.add(
+  //         meal,
+  //       ); // Insert item record permanently into memory list sets
+  //     });
+  //     _showInfoMessage('Recipe locked into your favorites!');
+  //   }
+  // }
 
   void _selectPage(int index) {
     setState(() {
@@ -108,7 +97,8 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Meal> availableMeals = dummyMeals.where((meal) {
+    final meals = ref.watch(mealsProvider);
+    final List<Meal> availableMeals = meals.where((meal) {
       if (_activeFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
         return false;
       }
@@ -125,18 +115,17 @@ class _TabsScreenState extends State<TabsScreen> {
     }).toList();
     // A. Default Viewport Page Slot configuration: Categories Grid Panel
     Widget activePage = CategoriesScreen(
-      onToggleFavorite: _toggleMealFavoriteStatus,
+      //onToggleFavorite: _toggleMealFavoriteStatus,
       availableMeals: availableMeals,
     );
     String activePageTitle = 'Food Categories';
 
     // B. Re-paints the display container instantly if the Favorites Tab button row is tapped
     if (_selectedPageIndex == 1) {
+      final List<Meal> favoriteMeals = ref.watch(favoriteMealsProvider);
       activePage = MealsScreen(
-        //title: '',
-        meals: _favoriteMeals, // Feeds your active live favorites dataset
-        onToggleFavorite:
-            _toggleMealFavoriteStatus, // Keeps bookmark switches functional inside lists!
+        meals: favoriteMeals, // Feeds your active live favorites dataset
+        //onToggleFavorite: _toggleMealFavoriteStatus, // Keeps bookmark switches functional inside lists!
       );
       activePageTitle = 'Your Favorites';
     }

@@ -8,11 +8,11 @@ import 'package:meals/views/meals.dart';
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({
     super.key,
-    required this.onToggleFavorite, // 🚀 BRIDGE CONSTRUCTOR: Receives pointer method from tab
+    //required this.onToggleFavorite, // 🚀 BRIDGE CONSTRUCTOR: Receives pointer method from tab
     required this.availableMeals, // 🚀 BRIDGE CONSTRUCTOR: Receives meals data from tab
   });
 
-  final void Function(Meal meal) onToggleFavorite;
+  //final void Function(Meal meal) onToggleFavorite;
   final List<Meal>
   availableMeals; // 🚀 BRIDGE CONSTRUCTOR: Receives meals data from tab
 
@@ -36,8 +36,7 @@ class CategoriesScreen extends StatelessWidget {
         builder: (ctx) => MealsScreen(
           title: category.title,
           meals: filteredMeals,
-          onToggleFavorite:
-              onToggleFavorite, // 🚀 Passes the favorites tunnel forward safely!
+          //onToggleFavorite: onToggleFavorite, // 🚀 Passes the favorites tunnel forward safely!
         ),
       ),
     );

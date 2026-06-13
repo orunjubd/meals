@@ -9,11 +9,11 @@ class MealItem extends StatelessWidget {
   const MealItem({
     super.key,
     required this.meal,
-    required this.onToggleFavorite, // 🚀 REQUIRE IT HERE
+    //required this.onToggleFavorite, // 🚀 REQUIRE IT HERE
   });
 
   final Meal meal;
-  final void Function(Meal meal) onToggleFavorite;
+  //final void Function(Meal meal) onToggleFavorite;
 
   // Helper utility method to capitalize text properties nicely (e.g. 'simple' -> 'Simple')
   String _capitalize(String text) {
@@ -34,8 +34,8 @@ class MealItem extends StatelessWidget {
             MaterialPageRoute(
               builder: (ctx) => MealDetailsScreen(
                 meal: meal,
-                onToggleFavorite:
-                    onToggleFavorite, // 🚀 PASS IT DOWN TO DEEP-DIVE SCREEN
+                //onToggleFavorite:
+                //    onToggleFavorite, // 🚀 PASS IT DOWN TO DEEP-DIVE SCREEN
               ),
             ),
           );
